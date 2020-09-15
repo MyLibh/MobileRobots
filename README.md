@@ -1,1 +1,5 @@
-# MobileRobots
+# Лабораторная работа №4.27
+
+## Задание
+
+![task](res/task.jpg)
