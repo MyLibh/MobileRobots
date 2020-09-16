@@ -60,6 +60,8 @@ namespace MobileRobots
 
 		void resize(const qreal width, const qreal height);
 
+		void clear() noexcept;
+
 	private:
 		qreal                           m_xScale;
 		qreal                           m_yScale;

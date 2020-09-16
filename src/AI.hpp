@@ -53,6 +53,10 @@ namespace MobileRobots
 
 		inline bool finished() const noexcept { return m_finished; }
 
+		void clear() noexcept;
+
+		void reset(std::shared_ptr<EnvironmentDescriptor> envDescr);
+
 	private:
 		std::shared_ptr<EnvironmentDescriptor>                 m_envDescr;
 		std::map<Coord, std::shared_ptr<MapObject>>            m_map;

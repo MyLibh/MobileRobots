@@ -193,4 +193,19 @@ namespace MobileRobots
                 item->setRect(owner->getX(), owner->getY(), r * 2. * m_xScale, r * 2. * m_yScale);
 
     }
+    
+    void Graphics::clear() noexcept
+    {
+        m_xScale = m_yScale = Graphics::IMAGE_SIZE;
+
+        m_scene->clear();
+        m_map.swap(decltype(m_map)());
+        m_scouts.swap(decltype(m_scouts)());
+        m_modules.swap(decltype(m_modules)());
+        m_images.swap(decltype(m_images)());
+        m_grid[0].swap(std::vector<QGraphicsLineItem*>());
+        m_grid[1].swap(std::vector<QGraphicsLineItem*>());
+
+        m_currentTile = nullptr;
+    }
 } // namespace MobileRobots
