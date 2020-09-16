@@ -40,7 +40,7 @@ namespace MobileRobots
         void keyPressEvent(QKeyEvent* event) override;
 
     public:
-        MobileRobots(QWidget *parent = nullptr);
+        MobileRobots(QWidget* parent = nullptr);
 
         ~MobileRobots() noexcept;
 
