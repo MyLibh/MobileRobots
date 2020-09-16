@@ -10,21 +10,21 @@
   <Class Name="MobileRobots::AI" Collapsed="true">
     <Position X="9.75" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>CQAAACAIAAAAAACASgAAAgAEEAAAAAAANAgFQEAAAAA=</HashCode>
+      <HashCode>CQAAACAIAAAAAACASgAAAgAEEAAAAAAANAoFQEAAAAA=</HashCode>
       <FileName>src\AI.hpp</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="MobileRobots::MobileRobots" Collapsed="true">
     <Position X="9.75" Y="1.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAGAACAAAAAAAAAgCAIAIsAQEAAQYAEgAIAAQAAkAAQ=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAIKAAEAAQIAEgAAAAQAAEAAQ=</HashCode>
       <FileName>src\MobileRobots.hpp</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="MobileRobots::EnergyConsumer" Collapsed="true">
     <Position X="3.75" Y="7.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAEAAAAAUgAAAQAAAAABAAAQAAAIAAAiAAAAACAAAA=</HashCode>
+      <HashCode>AAAAAAAAAQgAAAAAAAAABAAAQAAAIAAAiAAAAACAAAA=</HashCode>
       <FileName>src\EnergyConsumer.hpp</FileName>
     </TypeIdentifier>
   </Class>
@@ -115,8 +115,15 @@
   <Class Name="MobileRobots::RobotScout" Collapsed="true">
     <Position X="5" Y="3.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAABgAAABAACAAAAAEAQAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAgAAABAACAAAAAEAQAAAAAAAAAAA=</HashCode>
       <FileName>src\RobotScout.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MobileRobots::Graphics" Collapsed="true">
+    <Position X="9.75" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABHAACAAAAAABAAgAAoAAgBAGAAIAAAAAYEAAgAgAAE=</HashCode>
+      <FileName>src\Graphics.hpp</FileName>
     </TypeIdentifier>
   </Class>
   <Struct Name="MobileRobots::Coord" Collapsed="true">
