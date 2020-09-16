@@ -21,8 +21,7 @@ namespace MobileRobots
         Q_OBJECT
 
     private:
-        using row_t = std::vector<QGraphicsPixmapItem*>;
-        using map_t = std::vector<row_t>;
+        using map_t = std::unordered_map<Coord, QGraphicsPixmapItem*>;
         using scouts_map_t = std::vector<std::pair<QGraphicsPixmapItem*, std::shared_ptr<RobotScout>>>;
 
     private:

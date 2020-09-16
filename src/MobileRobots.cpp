@@ -138,18 +138,13 @@ namespace MobileRobots
     {
         loadImages();
 
-        m_map = map_t(m_envDescr->getWidth());
-        for (uint32_t i{}; static_cast<size_t>(i) < m_map.size(); ++i)
-        {
-            const auto size = m_envDescr->getHeight();
-
-            m_map[static_cast<size_t>(i)].resize(static_cast<size_t>(size));
-            for (uint32_t j{}; j < size; ++j)
+        for (uint32_t x{}; x < m_envDescr->getWidth(); ++x)
+            for (uint32_t y{}; y < m_envDescr->getHeight(); ++y)
             {
-                m_map[static_cast<size_t>(i)][static_cast<size_t>(j)] = m_scene->addPixmap(m_images.at("DarkGrass"));
-                m_map[static_cast<size_t>(i)][static_cast<size_t>(j)]->setPos(i * static_cast<qreal>(m_scaleFactor.x), j * static_cast<qreal>(m_scaleFactor.y));
+                Coord coord(x, y);
+                m_map.emplace(coord, m_scene->addPixmap(m_images.at("DarkGrass")));
+                m_map.at(coord)->setPos(x * static_cast<qreal>(m_scaleFactor.x), y * static_cast<qreal>(m_scaleFactor.y));
             }
-        }  
 
         for (const auto& object : m_envDescr->getObjects())
         {
@@ -163,7 +158,7 @@ namespace MobileRobots
             else if (id == typeid(CommandCenter))     name = "CommandCenter";
 
             if (id != typeid(RobotScout) && id != typeid(RobotCommander))
-                m_map[object->getX()][object->getY()]->setPixmap(m_images.at(name));
+                m_map.at(object->getPos())->setPixmap(m_images.at(name));
             else
             {
                 m_scouts.emplace_back(m_scene->addPixmap(m_images.at(id == typeid(RobotScout) ? "RobotScout" : "RobotCommander")), std::dynamic_pointer_cast<RobotScout>(object));
@@ -213,12 +208,11 @@ namespace MobileRobots
         m_scaleFactor.x = canvas->width() / m_envDescr->getWidth();
         m_scaleFactor.y = canvas->height() / m_envDescr->getHeight();
 
-        for (uint32_t i{}; i < m_map.size(); ++i)
-            for (uint32_t j{}; j < m_map[0].size(); ++j)
-            {
-                m_map[i][j]->setPixmap(m_map[i][j]->pixmap().scaled(m_scaleFactor.x, m_scaleFactor.y));
-                m_map[i][j]->setPos(i * static_cast<qreal>(m_scaleFactor.x), j * static_cast<qreal>(m_scaleFactor.y));
-            }
+        for (auto& [coord, item] : m_map)
+        {
+            item->setPixmap(item->pixmap().scaled(m_scaleFactor.x, m_scaleFactor.y));
+            item->setPos(coord.x * static_cast<qreal>(m_scaleFactor.x), coord.y * static_cast<qreal>(m_scaleFactor.y));
+        }
 
         for (auto& line : m_grid[0])
             m_scene->removeItem(line);
@@ -297,11 +291,11 @@ namespace MobileRobots
     {
         for (auto&& coord : m_ai->getMapUpdates())
             if (auto&& object = m_envDescr->getObject(coord); !object || typeid(*object) == typeid(RobotScout) || typeid(*object) == typeid(RobotCommander))
-                m_map[coord.x][coord.y]->setPixmap(m_images.at("LightGrass").scaled(m_scaleFactor.x, m_scaleFactor.y));
+                m_map.at(coord)->setPixmap(m_images.at("LightGrass").scaled(m_scaleFactor.x, m_scaleFactor.y));
             else if (typeid(*object) == typeid(Barrier))
-                m_map[coord.x][coord.y]->setPixmap(m_images.at("LightBarrier").scaled(m_scaleFactor.x, m_scaleFactor.y));
+                m_map.at(coord)->setPixmap(m_images.at("LightBarrier").scaled(m_scaleFactor.x, m_scaleFactor.y));
             else if (typeid(*object) == typeid(InterestingObject))
-                m_map[coord.x][coord.y]->setPixmap(m_images.at("LightInterestingObject").scaled(m_scaleFactor.x, m_scaleFactor.y));
+                m_map.at(coord)->setPixmap(m_images.at("LightInterestingObject").scaled(m_scaleFactor.x, m_scaleFactor.y));
 
         for (const auto& [pixmap, scout] : m_scouts)
         {
