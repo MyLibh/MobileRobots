@@ -2,16 +2,17 @@
 #define __MOBILE_ROBOTS_HPP_INCLUDED__
 
 #include <QtWidgets/QMainWindow>
-#include <QTimer>
 
 #include "ui_MobileRobots.h"
 
-#include "Graphics.hpp"
+class QTimer;
 
 namespace MobileRobots
 {
+    class Coord;
     class EnvironmentDescriptor;
     class AI;
+    class Graphics;
 
     class MobileRobots : public QMainWindow
     {
@@ -34,7 +35,7 @@ namespace MobileRobots
     public:
         MobileRobots(QWidget *parent = nullptr);
 
-        inline ~MobileRobots() noexcept = default;
+        ~MobileRobots() noexcept;
 
         void update();
 
@@ -43,7 +44,7 @@ namespace MobileRobots
         std::unique_ptr<QTimer>                m_timer;
         std::shared_ptr<EnvironmentDescriptor> m_envDescr;
         std::shared_ptr<AI>                    m_ai;
-        Graphics                               m_graphics;
+        std::unique_ptr<Graphics>              m_graphics;
     };
 } // namespace MobileRobots
 

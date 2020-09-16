@@ -6,29 +6,16 @@
 #include "Sensor.hpp"
 
 #include <QGraphicsScene>
-#include <QGraphicsPixmapItem>
+#include <QGraphicsItem>
 #include <QDir>
 
 namespace MobileRobots
 {
 	void Graphics::loadImages()
 	{
-        for (const auto& file : QDir(":/assets/images/scaled/").entryList())
-        {
-            ;// m_images.emplace(file.)
-        }
-
-        QString path(":/assets/images/scaled/");
-        m_images.emplace("DarkGrass", QPixmap(path + "dark_grass.png"));
-		m_images.emplace("LightGrass", QPixmap(path + "light_grass.png"));
-		m_images.emplace("DarkBarrier", QPixmap(path + "dark_barrier.png"));
-		m_images.emplace("LightBarrier", QPixmap(path + "light_barrier.png"));
-		m_images.emplace("DarkInterestingObject", QPixmap(path + "dark_interesting_object.png"));
-		m_images.emplace("LightInterestingObject", QPixmap(path + "light_interesting_object.png"));
-		m_images.emplace("RobotScout", QPixmap(path + "robot_scout.png"));
-		m_images.emplace("RobotCommander", QPixmap(path + "robot_commander.png"));
-		m_images.emplace("ObservationCenter", QPixmap(path + "observation_center.png"));
-		m_images.emplace("CommandCenter", QPixmap(path + "command_center.png"));
+        QString path = ":/assets/images/scaled/";
+        for (const auto& file : QDir(path).entryList())
+            m_images.emplace(file.section(".", 0, 0).toStdString(), QPixmap(path + file));
 	}
 
 	void Graphics::createGrid(const uint32_t width, const uint32_t height)
@@ -100,24 +87,30 @@ namespace MobileRobots
         {
             std::string name;
             const auto& id = typeid(*object);
-            if (id == typeid(Barrier))                name = "DarkBarrier";
-            else if (id == typeid(InterestingObject)) name = "DarkInterestingObject";
-            else if (id == typeid(RobotScout))        name = "RobotScout";
-            else if (id == typeid(RobotCommander))    name = "RobotCommander";
-            else if (id == typeid(ObservationCenter)) name = "ObservationCenter";
-            else if (id == typeid(CommandCenter))     name = "CommandCenter";
+            if (id == typeid(Barrier))                name = "dark_barrier";
+            else if (id == typeid(InterestingObject)) name = "dark_interesting_object";
+            else if (id == typeid(RobotScout))        name = "robot_scout";
+            else if (id == typeid(RobotCommander))    name = "robot_commander";
+            else if (id == typeid(ObservationCenter)) name = "observation_center";
+            else if (id == typeid(CommandCenter))     name = "command_center";
 
             if (id != typeid(RobotScout) && id != typeid(RobotCommander))
                 m_map.at(object->getPos())->setPixmap(m_images.at(name));
             else
             {
-                auto& [scout, pixmap] = *m_scouts.emplace(std::dynamic_pointer_cast<RobotScout>(object), m_scene->addPixmap(m_images.at(id == typeid(RobotScout) ? "RobotScout" : "RobotCommander"))).first;
+                auto& [scout, pixmap] = *m_scouts.emplace(std::dynamic_pointer_cast<RobotScout>(object), m_scene->addPixmap(m_images.at(name))).first;
                 pixmap->setPos(scout->getX() * m_xScale, scout->getY() * m_yScale);
             }
 
             if (id != typeid(Barrier) && id != typeid(InterestingObject))
                 createModules(std::dynamic_pointer_cast<ObservationCenter>(object));
         }
+    }
+
+    void Graphics::setCurrentTilePos(const qreal x, const qreal y) noexcept
+    {
+        if (m_currentTile)
+            m_currentTile->setPos(x * m_xScale, y * m_yScale);
     }
 
     void Graphics::createMap(const uint32_t width, const uint32_t height, const std::vector<std::shared_ptr<MapObject>>& objects)
@@ -128,7 +121,7 @@ namespace MobileRobots
             for (uint32_t y{}; y < height; ++y)
             {
                 Coord coord(x, y);
-                m_map.emplace(coord, m_scene->addPixmap(m_images.at("DarkGrass")));
+                m_map.emplace(coord, m_scene->addPixmap(m_images.at("dark_grass")));
                 m_map.at(coord)->setPos(x * m_xScale, y * m_yScale);
             }
 
@@ -150,16 +143,16 @@ namespace MobileRobots
 		m_grid(),
         m_currentTile{}
 	{ }
-    
+
     void Graphics::draw(std::shared_ptr<EnvironmentDescriptor> envDescr, std::set<Coord> mapUpdates /* = { } */) const
     {
         for (auto& coord : mapUpdates)
             if (auto& object = envDescr->getObject(coord); !object || typeid(*object) == typeid(RobotScout) || typeid(*object) == typeid(RobotCommander))
-                m_map.at(coord)->setPixmap(m_images.at("LightGrass").scaled(m_xScale, m_yScale));
+                m_map.at(coord)->setPixmap(m_images.at("light_grass").scaled(m_xScale, m_yScale));
             else if (typeid(*object) == typeid(Barrier))
-                m_map.at(coord)->setPixmap(m_images.at("LightBarrier").scaled(m_xScale, m_yScale));
+                m_map.at(coord)->setPixmap(m_images.at("light_barrier").scaled(m_xScale, m_yScale));
             else if (typeid(*object) == typeid(InterestingObject))
-                m_map.at(coord)->setPixmap(m_images.at("LightInterestingObject").scaled(m_xScale, m_yScale));
+                m_map.at(coord)->setPixmap(m_images.at("light_interesting_object").scaled(m_xScale, m_yScale));
 
         for (const auto& [scout, pixmap] : m_scouts)
         {

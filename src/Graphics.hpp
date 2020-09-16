@@ -4,10 +4,16 @@
 #include "Coord.hpp"
 #include "RobotScout.hpp"
 
-#include <QGraphicsScene>
-#include <QGraphicsRectItem>
-
 #include <set>
+
+#include <QtGlobal>
+
+class QGraphicsScene;
+class QGraphicsPixmapItem;
+class QGraphicsEllipseItem;
+class QGraphicsLineItem;
+class QGraphicsRectItem;
+class QPixmap;
 
 namespace MobileRobots
 {
@@ -44,7 +50,7 @@ namespace MobileRobots
 		[[nodiscard]]
 		inline auto& getScene() const noexcept { return m_scene; }
 
-		void setCurrentTilePos(const qreal x, const qreal y) noexcept { if (m_currentTile) m_currentTile->setPos(x * m_xScale, y * m_yScale); }
+		void setCurrentTilePos(const qreal x, const qreal y) noexcept;
 
 		void createMap(const uint32_t width, const uint32_t height, const std::vector<std::shared_ptr<MapObject>>& objects);
 

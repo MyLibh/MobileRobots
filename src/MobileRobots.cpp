@@ -2,12 +2,12 @@
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
 #include "MobileRobots.hpp"
-#include "EnvironmentDescriptor.hpp"
 #include "MapLoader.hpp"
+#include "EnvironmentDescriptor.hpp"
 #include "AI.hpp"
-#include "Sensor.hpp"
-#include "PowerGenerator.hpp"
+#include "Graphics.hpp"
 
+#include <QTimer>
 #include <QMouseEvent>
 #include <QScrollBar>
 #include <QScreen>
@@ -20,15 +20,15 @@ namespace MobileRobots
     {
         m_ui->setupUi(this);
 
-        const int SCALED_CANVAS_WIDTH = m_envDescr->getWidth() * m_graphics.getXScale();
-        const int SCALED_CANVAS_HEIGHT = m_envDescr->getHeight() * m_graphics.getYScale();
+        const int SCALED_CANVAS_WIDTH = m_envDescr->getWidth() * m_graphics->getXScale();
+        const int SCALED_CANVAS_HEIGHT = m_envDescr->getHeight() * m_graphics->getYScale();
 
         auto canvas = m_ui->canvas;
         canvas->resize(SCALED_CANVAS_WIDTH, SCALED_CANVAS_HEIGHT);
         canvas->horizontalScrollBar()->blockSignals(true);
         canvas->verticalScrollBar()->blockSignals(true);
         
-        auto& scene = m_graphics.getScene();
+        auto& scene = m_graphics->getScene();
         scene->setParent(canvas);
         canvas->setScene(scene.get());
         scene->setSceneRect(0, 0, canvas->width(), canvas->height());
@@ -72,7 +72,7 @@ namespace MobileRobots
         m_ui->infoWidget->resize(MobileRobots::INFO_WIDTH, QMainWindow::height());
         m_ui->infoWidget->move(canvas->width(), 0);
 
-        m_graphics.resize(canvas->width(), canvas->height());
+        m_graphics->resize(canvas->width(), canvas->height());
 
         QMainWindow::resizeEvent(event);
     }
@@ -81,11 +81,11 @@ namespace MobileRobots
     {
         if (event->x() <= m_ui->canvas->width() && event->y() <= m_ui->canvas->height())
         {
-            auto x{ static_cast<uint32_t>(event->x() / m_graphics.getXScale()) };
-            auto y{ static_cast<uint32_t>(event->y() / m_graphics.getYScale()) };
+            auto x{ static_cast<uint32_t>(event->x() / m_graphics->getXScale()) };
+            auto y{ static_cast<uint32_t>(event->y() / m_graphics->getYScale()) };
             updateInfo({ x,  y});
 
-            m_graphics.setCurrentTilePos(x, y);
+            m_graphics->setCurrentTilePos(x, y);
         }
         
         QMainWindow::mousePressEvent(event);
@@ -105,24 +105,26 @@ namespace MobileRobots
         m_timer(std::make_unique<QTimer>(this)),
         m_envDescr(MapLoader::load(QString(CONFIG_NAME))),
         m_ai(std::make_shared<AI>(m_envDescr)),
-        m_graphics()
+        m_graphics(std::make_unique<Graphics>())
     {
         initWidgets();
-        m_graphics.createMap(m_envDescr->getWidth(), m_envDescr->getHeight(), m_envDescr->getObjects());
+        m_graphics->createMap(m_envDescr->getWidth(), m_envDescr->getHeight(), m_envDescr->getObjects());
 
         connect(m_timer.get(), &QTimer::timeout, this, &MobileRobots::update);
         m_timer->start(50);
 
         ManagerModule::setAI(m_ai->shared_from_this());
 
-        m_graphics.draw(m_envDescr);
+        m_graphics->draw(m_envDescr);
     }
+
+    MobileRobots::~MobileRobots() noexcept = default;
 
     void MobileRobots::update()
     {
         m_ai->work();
 
-        m_graphics.draw(m_envDescr, std::move(m_ai->getMapUpdates()));
+        m_graphics->draw(m_envDescr, std::move(m_ai->getMapUpdates()));
 
         if (m_ai->finished())
             ; // TODO: analyze results
