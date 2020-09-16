@@ -3,6 +3,9 @@
 
 #include <QtWidgets/QMainWindow>
 
+#include <chrono>
+using namespace std::chrono_literals;
+
 #include "ui_MobileRobots.h"
 
 class QTimer;
@@ -20,6 +23,8 @@ namespace MobileRobots
 
     private:
         inline static constexpr auto INFO_WIDTH{ 200U }; //-V112
+        inline static constexpr auto TIMER_INTERVAL_DEFAULT{ 150ms }; //-V112
+        inline static constexpr auto TIMER_INTERVAL_STEP{ 25ms }; //-V112
 
     private:
         void initWidgets();

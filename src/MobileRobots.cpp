@@ -95,6 +95,22 @@ namespace MobileRobots
     {
         if (event->key() == Qt::Key_Escape)
             QMainWindow::close();
+        switch (event->key())
+        {
+        case Qt::Key_Escape: QMainWindow::close(); break;
+
+        case Qt::Key_Equal: m_timer->setInterval(m_timer->intervalAsDuration() + MobileRobots::TIMER_INTERVAL_STEP); break;
+
+        case Qt::Key_Minus: 
+        {
+            auto duration = m_timer->intervalAsDuration() - MobileRobots::TIMER_INTERVAL_STEP;
+            m_timer->setInterval(duration <= 0ms ? MobileRobots::TIMER_INTERVAL_STEP : duration);
+            
+            break;
+        }
+
+        default: break;
+        }
 
         QMainWindow::keyPressEvent(event);
     }
@@ -111,7 +127,7 @@ namespace MobileRobots
         m_graphics->createMap(m_envDescr->getWidth(), m_envDescr->getHeight(), m_envDescr->getObjects());
 
         connect(m_timer.get(), &QTimer::timeout, this, &MobileRobots::update);
-        m_timer->start(50);
+        m_timer->start(MobileRobots::TIMER_INTERVAL_DEFAULT);
 
         ManagerModule::setAI(m_ai->shared_from_this());
 
