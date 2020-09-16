@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
+ <author>mylibh</author>
  <class>MobileRobotsClass</class>
  <widget class="QMainWindow" name="MobileRobotsClass">
   <property name="geometry">
