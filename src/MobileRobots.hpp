@@ -4,8 +4,6 @@
 #include <QtWidgets/QMainWindow>
 #include <QTimer>
 
-#include <vector>
-
 #include "ui_MobileRobots.h"
 
 #include "Coord.hpp"
@@ -21,9 +19,9 @@ namespace MobileRobots
         Q_OBJECT
 
     private:
-        using row_t = std::vector<QGraphicsPixmapItem*>;
-        using map_t = std::vector<row_t>;
-        using scouts_map_t = std::vector<std::pair<QGraphicsPixmapItem*, std::shared_ptr<RobotScout>>>;
+        using pixmap_map_t = std::unordered_map<Coord, QGraphicsPixmapItem*>;
+        using scouts_map_t = std::unordered_map<std::shared_ptr<RobotScout>, QGraphicsPixmapItem*>;
+        using modules_map_t = std::unordered_map<std::shared_ptr<ObservationCenter>, std::vector<std::pair<QGraphicsEllipseItem*, unsigned>>>;
 
     private:
         inline static constexpr auto IMAGE_SIZE{ 64U }; //-V112
@@ -34,7 +32,7 @@ namespace MobileRobots
 
         void loadImages();
 
-        void drawGrid(const int width, const int height);
+        void drawGrid(const uint32_t width, const uint32_t height);
 
         void drawModules();
 
@@ -63,8 +61,9 @@ namespace MobileRobots
         std::shared_ptr<AI>                    m_ai;
         std::unique_ptr<QTimer>                m_timer;
         std::unique_ptr<QGraphicsScene>        m_scene;
-        map_t                                  m_map;
+        pixmap_map_t                           m_map;
         scouts_map_t                           m_scouts;
+        modules_map_t                          m_modules;
         std::map<std::string, QPixmap>         m_images;
         Coord                                  m_scaleFactor;
         std::vector<QGraphicsLineItem*>        m_grid[2];

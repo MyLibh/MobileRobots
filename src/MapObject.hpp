@@ -4,8 +4,7 @@
 #include "Coord.hpp"
 
 #include <memory>
-
-#include <QString>
+#include <string>
 
 namespace MobileRobots
 {
@@ -17,7 +16,10 @@ namespace MobileRobots
 		static void setEnvironmentDescriptor(std::shared_ptr<EnvironmentDescriptor> envDesc) noexcept;
 
 	protected:
-		inline virtual QString toStringHelper(const QString& type) const { return std::move(QString("<b>x:</b> %1<br/><b>y:</b> %2<br/><b>type:</b> %3<br/>").arg(m_pos.x).arg(m_pos.y).arg(type)); }
+		inline virtual std::string toStringHelper(std::string&& type) const
+		{
+			return "<b>x:</b> " + std::to_string(m_pos.x) + "<br/><b>y:</b> " + std::to_string(m_pos.y) + "<br/><b>type:</b> " + type + "<br/>";
+		}
 
 	public:
 		MapObject() = delete;
@@ -37,7 +39,7 @@ namespace MobileRobots
 		[[nodiscard]]
 		inline constexpr auto getPos() const noexcept { return m_pos; }
 
-		virtual QString toString() const = 0;
+		virtual std::string toString() const = 0;
 
 	protected:
 		static std::shared_ptr<EnvironmentDescriptor> sEnvDesc;

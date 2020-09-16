@@ -18,8 +18,7 @@ namespace MobileRobots
 	private:
 		inline bool canAddDevice(std::shared_ptr<ObservationCenter> newDevice) const noexcept
 		{ 
-			return (static_cast<size_t>(m_maxDevices) > m_devices.size() && 
-				std::find(std::begin(m_devices), std::end(m_devices), newDevice) == std::end(m_devices)); 
+			return (static_cast<size_t>(m_maxDevices) > m_devices.size() && std::find(std::begin(m_devices), std::end(m_devices), newDevice) == std::end(m_devices)); 
 		}
 
 	public:
@@ -31,7 +30,10 @@ namespace MobileRobots
 			m_devices()
 		{ }
 
-		inline QString toString() const override { return (EnergyConsumer::toStringHelper("ManagerModule") + "<b>devices:</b> %1/%2<br/>").arg(m_devices.size()).arg(m_maxDevices); }
+		inline std::string toString() const override
+		{
+			return EnergyConsumer::toStringHelper("ManagerModule") + "<b>devices:</b> " + std::to_string(m_devices.size()) + "/" + std::to_string(m_maxDevices) + "<br/>";
+		}
 
 		[[nodiscard]]
 		inline auto& getDevices() const noexcept { return m_devices; }

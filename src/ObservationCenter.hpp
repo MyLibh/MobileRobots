@@ -6,7 +6,6 @@
 
 #include <vector>
 #include <map>
-#include <string>
 
 namespace MobileRobots
 {
@@ -16,7 +15,7 @@ namespace MobileRobots
 		void initModules();
 
 	protected:
-		virtual QString toStringHelper(const QString& type) const override;
+		virtual std::string toStringHelper(std::string&& type) const override;
 
 	public:
 		ObservationCenter() = delete;
@@ -33,7 +32,7 @@ namespace MobileRobots
 
 		inline virtual ~ObservationCenter() noexcept override = default;
 
-		inline virtual QString toString() const override { return ObservationCenter::toStringHelper("ObservationCenter"); }
+		inline virtual std::string toString() const override { return ObservationCenter::toStringHelper("ObservationCenter"); }
 
 		[[nodiscard]]
 		inline auto getDescription() const noexcept { return m_descr; }

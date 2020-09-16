@@ -19,7 +19,7 @@ namespace MobileRobots
 
 		inline ~RobotCommander() noexcept override = default;
 
-		inline QString toString() const override { return ObservationCenter::toStringHelper("RobotCommander"); }
+		inline std::string toString() const override { return ObservationCenter::toStringHelper("RobotCommander"); }
 
 		[[nodiscard]]
 		std::map<Coord, std::shared_ptr<MapObject>> getObjectsAround() const override;

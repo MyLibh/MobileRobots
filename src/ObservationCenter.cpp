@@ -52,13 +52,18 @@ namespace MobileRobots
         // TODO: check bad conditions
     }
 
-    QString ObservationCenter::toStringHelper(const QString& type) const
+    std::string ObservationCenter::toStringHelper(std::string&& type) const
     {
-        QString str = MapObject::toStringHelper(type);
-        str.append(QString("<b>description:</b> %1<br/><b>powerUsage:</b> %2<br/><b>maxSlots:</b> %3<br/><b>price:</b> %4<br/><b>modules:</b><br/><br>").arg(m_descr.c_str()).arg(m_powerUsage).arg(m_maxSlots).arg(m_price));
+        auto str = std::move(MapObject::toStringHelper(std::move(type)));
+        str +=
+            "<b>description:</b> " + m_descr +
+            "<br/><b>powerUsage:</b> " + std::to_string(m_powerUsage) +
+            "<br/><b>maxSlots:</b> " + std::to_string(m_maxSlots) +
+            "<br/><b>price:</b> " + std::to_string(m_price) +
+            "<br/><b>modules:</b><br/><br>";
 
         for (const auto& module : m_modules)
-            str.append(module->toString() + "<br/>");
+            str += module->toString() + "<br/>";
 
         return std::move(str);
     }

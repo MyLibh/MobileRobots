@@ -16,7 +16,7 @@ namespace MobileRobots
 
 		inline ~InterestingObject() noexcept override = default;
 
-		inline QString toString() const override { return MapObject::toStringHelper("InterestingObject"); }
+		inline std::string toString() const override { return MapObject::toStringHelper("InterestingObject"); }
 	};
 } // namespace MobileRobots
 

@@ -1,14 +1,17 @@
 #ifndef __MODULE_HPP_INCLUDED__
 #define __MODULE_HPP_INCLUDED__
 
-#include <QString>
+#include <string>
 
 namespace MobileRobots
 {
 	class Module
 	{
 	protected:
-		inline virtual QString toStringHelper(const QString& type) const { return QString("<b>type:</b> %1<br/><b>isActive:</b> %2<br/><b>priority:</b> %3<br/>").arg(type).arg(m_isActive).arg(m_priority); };
+		inline virtual std::string toStringHelper(std::string&& type) const
+		{
+			return "<b>type:</b> " + type + "<br/><b>isActive:</b> " + std::to_string(m_isActive) + "<br/><b>priority:</b> " + std::to_string(m_priority) + "<br/>";
+		};
 
 	public:
 		inline constexpr Module(const bool isActive, const unsigned priority) noexcept :
@@ -27,7 +30,7 @@ namespace MobileRobots
 
 		inline void turnOff() noexcept { m_isActive = false; }
 
-		virtual QString toString() const = 0;
+		virtual std::string toString() const = 0;
 
 	protected:
 		bool     m_isActive;
