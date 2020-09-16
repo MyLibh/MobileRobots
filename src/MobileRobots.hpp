@@ -26,6 +26,7 @@ namespace MobileRobots
         inline static constexpr auto MENU_HEIGHT{ 26 }; //-V112
         inline static constexpr auto TIMER_INTERVAL_DEFAULT{ 150ms }; //-V112
         inline static constexpr auto TIMER_INTERVAL_STEP{ 25ms }; //-V112
+        inline static constexpr auto DEFAULT_CONFIG_NAME{ ":/cfg/map.json" };
 
     private:
         void initWidgets();

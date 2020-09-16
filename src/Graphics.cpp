@@ -36,23 +36,22 @@ namespace MobileRobots
 			m_grid[1].emplace_back(m_scene->addLine(0., y * m_yScale, width * m_xScale, y * m_yScale, QPen(Qt::black)));
 	}
 
-	void Graphics::createModules(const std::shared_ptr<ObservationCenter>& object)
+	void Graphics::createModules(std::shared_ptr<ObservationCenter> object)
 	{
         static auto createEllipse = [&](const Coord& coord, const unsigned r, Qt::GlobalColor color, Qt::PenStyle penStyle, Qt::BrushStyle brushStyle)
         {
-            auto item = new QGraphicsEllipseItem(
-                coord.x,
-                coord.y,
-                r * 2. * m_xScale,
-                r * 2. * m_yScale);
-
             QPen pen(color);
             pen.setStyle(penStyle);
-            item->setPen(pen);
-            item->setBrush(QBrush(color, brushStyle));
 
-            m_scene->addItem(item);
-            item->setPos((object->getX() + .5 - r) * m_xScale, (object->getY() + .5 - r) * m_yScale);
+            auto item = m_scene->addEllipse(
+                0.,
+                0.,
+                r * 2. * m_xScale,
+                r * 2. * m_yScale,
+                pen,
+                QBrush(color, brushStyle));
+
+            item->setPos((coord.x + .5 - r) * m_xScale, (coord.y + .5 - r) * m_yScale);
 
             return item;
         };
@@ -63,7 +62,7 @@ namespace MobileRobots
                 auto energyConsumer = std::dynamic_pointer_cast<EnergyConsumer>(module);
 
                 bool isSensor = id == typeid(Sensor);
-                auto&& item = isSensor ?
+                auto item = isSensor ?
                     createEllipse(object->getPos(), energyConsumer->getRadius(), Qt::blue, Qt::PenStyle::DashLine, Qt::BrushStyle::BDiagPattern) :
                     createEllipse(object->getPos(), energyConsumer->getRadius(), Qt::red, Qt::PenStyle::DotLine, Qt::BrushStyle::Dense7Pattern);
 
@@ -105,6 +104,18 @@ namespace MobileRobots
         }
     }
 
+	Graphics::Graphics() :
+        m_xScale(Graphics::IMAGE_SIZE),
+        m_yScale(Graphics::IMAGE_SIZE),
+		m_scene(std::make_unique<QGraphicsScene>()),
+		m_map(),
+		m_scouts(),
+		m_images(),
+		m_modules(),
+		m_grid(),
+        m_currentTile{}
+	{ }
+
     void Graphics::setCurrentTilePos(const qreal x, const qreal y) noexcept
     {
         if (m_currentTile)
@@ -132,18 +143,6 @@ namespace MobileRobots
         unloadUnnessesaryImages();
     }
 
-	Graphics::Graphics() :
-        m_xScale(Graphics::IMAGE_SIZE),
-        m_yScale(Graphics::IMAGE_SIZE),
-		m_scene(std::make_unique<QGraphicsScene>()),
-		m_map(),
-		m_scouts(),
-		m_images(),
-		m_modules(),
-		m_grid(),
-        m_currentTile{}
-	{ }
-
     void Graphics::draw(std::shared_ptr<EnvironmentDescriptor> envDescr, std::set<Coord> mapUpdates /* = { } */) const
     {
         for (auto& coord : mapUpdates)
@@ -163,12 +162,10 @@ namespace MobileRobots
         }
     }
 
-    void Graphics::resize(const qreal width, const qreal height)
+    void Graphics::resize(const qreal width, const qreal height, const qreal mapWidth, const qreal mapHeight)
     {
-        m_scene->setSceneRect(0., 0., width, height);
-
-        m_xScale = width / 10.;
-        m_yScale = height / 10.;
+        m_xScale = width / mapWidth;
+        m_yScale = height / mapHeight ;
 
         for (auto& [coord, item] : m_map)
         {
@@ -176,11 +173,11 @@ namespace MobileRobots
             item->setPos(coord.x * m_xScale, coord.y * m_yScale);
         }
 
-        for (size_t i{}; i < m_grid[0].size(); ++i)
-            m_grid[0][i]->setLine(i * m_xScale, 0., i * m_xScale, height);
+        for (size_t x{}; x < m_grid[0].size(); ++x)
+            m_grid[0][x]->setLine(static_cast<qreal>(x) * m_xScale, 0., static_cast<qreal>(x) * m_xScale, height);
 
-        for (size_t i{}; i < m_grid[1].size(); ++i)
-            m_grid[1][i]->setLine(0., i * m_yScale, width, i * m_yScale);
+        for (size_t y{}; y < m_grid[1].size(); ++y)
+            m_grid[1][y]->setLine(0., static_cast<qreal>(y) * m_yScale, width, static_cast<qreal>(y) * m_yScale);
 
         for (auto& [scout, pixmap] : m_scouts)
         {

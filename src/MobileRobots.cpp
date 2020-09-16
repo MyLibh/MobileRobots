@@ -14,8 +14,6 @@
 #include <QScreen>
 #include <QFileDialog>
 
-inline constexpr auto CONFIG_NAME{ ":/cfg/map.json" };
-
 namespace MobileRobots
 {
     void MobileRobots::initWidgets()
@@ -64,7 +62,7 @@ namespace MobileRobots
         m_ui->infoWidget->resize(MobileRobots::INFO_WIDTH, QMainWindow::height() - MobileRobots::MENU_HEIGHT);
         m_ui->infoWidget->move(canvas->width(), 0);
 
-        m_graphics->resize(canvas->width(), canvas->height());
+        m_graphics->resize(canvas->width(), canvas->height(), m_envDescr->getWidth(), m_envDescr->getHeight());
 
         QMainWindow::resizeEvent(event);
     }
@@ -111,7 +109,7 @@ namespace MobileRobots
         QMainWindow(parent),
         m_ui(std::make_unique<Ui::MobileRobotsClass>()),
         m_timer(std::make_unique<QTimer>(this)),
-        m_envDescr(MapLoader::load(QString(CONFIG_NAME))),
+        m_envDescr(MapLoader::load(MobileRobots::DEFAULT_CONFIG_NAME)),
         m_ai(std::make_shared<AI>(m_envDescr)),
         m_graphics(std::make_unique<Graphics>())
     {
@@ -134,17 +132,15 @@ namespace MobileRobots
                     if (auto newEnvDescr = MapLoader::load(path); newEnvDescr)
                     {
                         m_ui->infoWidget->setPlainText("");
+                        m_ai->clear();
+                        m_graphics->clear();
 
                         m_envDescr = std::move(newEnvDescr);
 
                         QMainWindow::setFixedSize(m_envDescr->getWidth() * m_graphics->getXScale() + MobileRobots::INFO_WIDTH, m_envDescr->getHeight() * m_graphics->getYScale() + MobileRobots::MENU_HEIGHT);
 
-                        m_ai->clear();
-                        m_graphics->clear();
-
-                        auto canvas = m_ui->canvas;
-                        m_graphics->getScene()->setSceneRect(0, 0, canvas->width(), canvas->height());
                         m_graphics->createMap(m_envDescr->getWidth(), m_envDescr->getHeight(), m_envDescr->getObjects());
+
                         m_ai->reset(m_envDescr);
 
                         updateInfo({ 0, 0 });

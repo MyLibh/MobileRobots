@@ -34,7 +34,7 @@ namespace MobileRobots
 
 		void createGrid(const uint32_t width, const uint32_t height);
 
-		void createModules(const std::shared_ptr<ObservationCenter>& object);
+		void createModules(std::shared_ptr<ObservationCenter> object);
 
 		void createObjects(const std::vector<std::shared_ptr<MapObject>>& objects);
 
@@ -58,7 +58,7 @@ namespace MobileRobots
 
 		void draw(std::shared_ptr<EnvironmentDescriptor> envDescr, std::set<Coord> mapUpdates = { }) const;
 
-		void resize(const qreal width, const qreal height);
+		void resize(const qreal width, const qreal height, const qreal mapWidth, const qreal mapHeight);
 
 		void clear() noexcept;
 
