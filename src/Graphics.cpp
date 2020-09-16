@@ -51,43 +51,32 @@ namespace MobileRobots
             item->setPen(pen);
             item->setBrush(QBrush(color, brushStyle));
 
+            m_scene->addItem(item);
+            item->setPos((object->getX() + .5 - r) * m_xScale, (object->getY() + .5 - r) * m_yScale);
+
             return item;
         };
 
         for (const auto& module : object->getModules())
-        {
-            if (typeid(*module) == typeid(Sensor))
+            if (const auto& id = typeid(*module); module->isActive() && (id == typeid(Sensor) || id == typeid(ManagerModule)))
             {
-                const auto& sensor = std::dynamic_pointer_cast<Sensor>(module);
-                const auto& r = sensor->getRadius();
+                auto energyConsumer = std::dynamic_pointer_cast<EnergyConsumer>(module);
 
-                auto item = createEllipse(object->getPos(), r, Qt::blue, Qt::PenStyle::DashLine, Qt::BrushStyle::BDiagPattern);
-                if (typeid(*object) == typeid(ObservationCenter) || typeid(*object) == typeid(CommandCenter))
+                bool isSensor = id == typeid(Sensor);
+                auto&& item = isSensor ?
+                    createEllipse(object->getPos(), energyConsumer->getRadius(), Qt::blue, Qt::PenStyle::DashLine, Qt::BrushStyle::BDiagPattern) :
+                    createEllipse(object->getPos(), energyConsumer->getRadius(), Qt::red, Qt::PenStyle::DotLine, Qt::BrushStyle::Dense7Pattern);
+
+                if (isSensor && (typeid(*object) == typeid(ObservationCenter) || typeid(*object) == typeid(CommandCenter)))
                 {
+                    auto sensor = std::dynamic_pointer_cast<Sensor>(energyConsumer);
                     item->setStartAngle(sensor->getDirection() * 90 * 16);
                     item->setSpanAngle(sensor->getAngle() * 16);
                 }
 
-                m_scene->addItem(item);
-                item->setPos((object->getX() + .5 - r) * m_xScale, (object->getY() + .5 - r) * m_yScale);
-
                 auto& [it, _] = m_modules.try_emplace(object);
-                it->second.emplace_back(item, r);
+                it->second.emplace_back(item, energyConsumer->getRadius());
             }
-            else if (typeid(*module) == typeid(ManagerModule))
-            {
-                const auto& manager = std::dynamic_pointer_cast<ManagerModule>(module);
-                const auto& r = manager->getRadius();
-
-                auto item = createEllipse(object->getPos(), r, Qt::red, Qt::PenStyle::DotLine, Qt::BrushStyle::Dense7Pattern);
-
-                m_scene->addItem(item);
-                item->setPos((object->getX() + .5 - r) * m_xScale, (object->getY() + .5 - r) * m_yScale);
-
-                auto& [it, _] = m_modules.try_emplace(object);
-                it->second.emplace_back(item, r);
-            }
-        }
 	}
 
     void Graphics::createObjects(const std::vector<std::shared_ptr<MapObject>>& objects)
