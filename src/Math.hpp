@@ -12,7 +12,7 @@
 #define __MATH_HPP_INCLUDED__
 
 #include <type_traits>
-#include <numeric>
+#include <limits>
 
 namespace Math
 {
