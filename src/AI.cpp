@@ -19,7 +19,7 @@ namespace MobileRobots
 	
 		auto wasUsed = [&](const Coord& coord) { return used.find(coord) != std::end(used); };
 
-		auto tryAdd = [&](const Coord& cur, const Coord coord)
+		auto tryAdd = [&](const Coord& cur, const Coord& coord)
 		{
 			if (m_envDescr->isInField(coord) &&
 				!wasUsed(coord) &&
@@ -133,8 +133,10 @@ namespace MobileRobots
 		if (auto robotCommander = std::dynamic_pointer_cast<RobotCommander>(commander); m_cache.find(robotCommander) != std::end(m_cache))
 			while (!m_cache.at(robotCommander).empty())
 			{
-				auto to = m_cache.at(robotCommander).top();
-				m_cache.at(robotCommander).pop();
+				auto& cacheStack = m_cache.at(robotCommander);
+
+				auto to = cacheStack.top();
+				cacheStack.pop();
 
 				if (auto&& route = makeRoute(robotCommander->getPos(), to); route)
 				{
