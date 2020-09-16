@@ -18,7 +18,9 @@ namespace MobileRobots
 		[[nodiscard]]
 		inline constexpr auto getPowerSupplyLevel() const noexcept { return m_powerSupplyLevel; }
 
-		inline QString toString() const override { return (Module::toStringHelper("PowerGenerator") + "\t<b>powerSupplyLevel:</b> %1<br/>").arg(m_powerSupplyLevel); }
+		inline std::string toString() const override {
+			return Module::toStringHelper("PowerGenerator") + "\t<b>powerSupplyLevel:</b>" + std::to_string(m_powerSupplyLevel) + "<br/>";
+		}
 
 	private:
 		unsigned m_powerSupplyLevel;

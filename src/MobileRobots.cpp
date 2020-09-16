@@ -185,7 +185,10 @@ namespace MobileRobots
         text.append(QString("<b>width:</b> %1<br/><b>height:</b> %2<br/><br/>").arg(m_envDescr->getWidth()).arg(m_envDescr->getHeight()));
     
         if (const auto object = m_envDescr->getObject(coord))
-            text.append(object->toString());
+        {
+            auto str = std::move(object->toString());
+            text.append(str.c_str());
+        }
         else
             text.append(QString("<b>x:</b> %1<br/><b>y:</b> %2<br/><b>type:</b> Grass<br/>").arg(coord.x).arg(coord.y));
 

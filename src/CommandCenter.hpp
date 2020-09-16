@@ -25,7 +25,7 @@ namespace MobileRobots
 
 		inline virtual ~CommandCenter() noexcept override = default;
 
-		inline virtual QString toString() const override { return ObservationCenter::toStringHelper("CommandCenter"); }
+		inline virtual std::string toString() const override { return ObservationCenter::toStringHelper("CommandCenter"); }
 
 		[[nodiscard]]
 		inline auto getManager() const noexcept { return m_manager; }

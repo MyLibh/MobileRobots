@@ -16,7 +16,7 @@ namespace MobileRobots
 
 		inline ~Barrier() noexcept override = default;
 
-		inline QString toString() const override { return MapObject::toStringHelper("Barrier"); }
+		inline std::string toString() const override { return MapObject::toStringHelper("Barrier"); }
 	};
 } // namespace MobileRobots
 

@@ -10,7 +10,10 @@ namespace MobileRobots
 	class EnergyConsumer : public Module
 	{
 	protected:
-		inline virtual QString toStringHelper(const QString& type) const override { return (Module::toStringHelper(type) + "<b>powerUsage:</b> %1<br/><b>r:</b> %2<br/>").arg(m_powerUsage).arg(m_r); }
+		inline virtual std::string toStringHelper(std::string&& type) const override
+		{
+			return Module::toStringHelper(std::move(type)) + "<b>powerUsage:</b> " + std::to_string(m_powerUsage) + "<br/><b>r:</b> " + std::to_string(m_r) + "<br/>";
+		}
 
 	public:
 		inline constexpr EnergyConsumer(const unsigned powerUsage, const unsigned radius, const unsigned priority, const bool isActive = true) noexcept :
@@ -22,7 +25,7 @@ namespace MobileRobots
 
 		inline virtual ~EnergyConsumer() noexcept override = default;
 
-		inline virtual QString toString() const override { return EnergyConsumer::toStringHelper("EnergyConsumer"); }
+		inline virtual std::string toString() const override { return EnergyConsumer::toStringHelper("EnergyConsumer"); }
 
 		[[nodiscard]]
 		inline constexpr auto getPowerUsage() const noexcept { return m_powerUsage; }

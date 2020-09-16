@@ -16,7 +16,7 @@ namespace MobileRobots
 
 		inline ~RobotScout() noexcept override = default;
 
-		inline virtual QString toString() const override { return ObservationCenter::toStringHelper("RobotScout"); }
+		inline virtual std::string toString() const override { return ObservationCenter::toStringHelper("RobotScout"); }
 
 		[[nodiscard]]
 		std::map<Coord, std::shared_ptr<MapObject>> getObjectsAround() const override;

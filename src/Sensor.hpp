@@ -18,7 +18,10 @@ namespace MobileRobots
 
 		inline ~Sensor() noexcept override = default;
 
-		inline QString toString() const override { return (EnergyConsumer::toStringHelper("Sensor") + "<b>direction:</b> %1<br/><b>angle:</b> %2<br/>").arg(m_dir).arg(m_angle); }
+		inline std::string toString() const override
+		{
+			return EnergyConsumer::toStringHelper("Sensor") + "<b>direction:</b> " + std::to_string(m_dir) + "<br/><b>angle:</b> " + std::to_string(m_angle) + "<br/>";
+		}
 
 		[[nodiscard]]
 		inline constexpr auto getDirection() const noexcept { return m_dir; }
