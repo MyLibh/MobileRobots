@@ -3,8 +3,6 @@
 
 #include "Module.hpp"
 
-#include <QGraphicsItem>
-
 namespace MobileRobots
 {
 	class EnergyConsumer : public Module
@@ -19,8 +17,7 @@ namespace MobileRobots
 		inline constexpr EnergyConsumer(const unsigned powerUsage, const unsigned radius, const unsigned priority, const bool isActive = true) noexcept :
 			Module(isActive, priority),
 			m_powerUsage(powerUsage),
-			m_r(radius),
-			m_graphicsItem{}
+			m_r(radius)
 		{ }
 
 		inline virtual ~EnergyConsumer() noexcept override = default;
@@ -33,15 +30,9 @@ namespace MobileRobots
 		[[nodiscard]]
 		inline constexpr auto getRadius() const noexcept { return m_r; }
 
-		[[nodiscard]]
-		inline auto getGraphicsItem() noexcept { return m_graphicsItem; }
-
-		void setGraphicsItem(QGraphicsEllipseItem* graphicsItem) noexcept { m_graphicsItem = graphicsItem; }
-
 	protected:
 		unsigned m_powerUsage;
 		unsigned m_r;
-		QGraphicsEllipseItem* m_graphicsItem;
 	};
 } // namespace MobileRobots
 

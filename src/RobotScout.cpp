@@ -4,7 +4,6 @@
 #include "RobotScout.hpp"
 #include "Sensor.hpp"
 #include "EnvironmentDescriptor.hpp"
-#include "PowerGenerator.hpp"
 
 namespace MobileRobots
 {
@@ -33,17 +32,5 @@ namespace MobileRobots
             }
 
         return std::move(objectsAround);
-    }
-
-    void RobotScout::redrawModules(const Coord& scaleFactor) noexcept
-    {
-        for (auto& module : m_modules)
-            if (module->isActive() && typeid(*module) != typeid(PowerGenerator))
-            {
-                auto energyConsumer = std::dynamic_pointer_cast<EnergyConsumer>(module);
-                energyConsumer->getGraphicsItem()->setPos(
-                    (getX() + .5 - energyConsumer->getRadius()) * scaleFactor.x,
-                    (getY() + .5 - energyConsumer->getRadius()) * scaleFactor.y);
-            }
     }
 } // namespace MobileRobots

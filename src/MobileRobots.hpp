@@ -20,7 +20,8 @@ namespace MobileRobots
 
     private:
         using pixmap_map_t = std::unordered_map<Coord, QGraphicsPixmapItem*>;
-        using scouts_map_t = std::vector<std::pair<QGraphicsPixmapItem*, std::shared_ptr<RobotScout>>>;
+        using scouts_map_t = std::unordered_map<std::shared_ptr<RobotScout>, QGraphicsPixmapItem*>;
+        using modules_map_t = std::unordered_map<std::shared_ptr<ObservationCenter>, std::vector<std::pair<QGraphicsEllipseItem*, unsigned>>>;
 
     private:
         inline static constexpr auto IMAGE_SIZE{ 64U }; //-V112
@@ -31,7 +32,7 @@ namespace MobileRobots
 
         void loadImages();
 
-        void drawGrid(const int width, const int height);
+        void drawGrid(const uint32_t width, const uint32_t height);
 
         void drawModules();
 
@@ -62,6 +63,7 @@ namespace MobileRobots
         std::unique_ptr<QGraphicsScene>        m_scene;
         pixmap_map_t                           m_map;
         scouts_map_t                           m_scouts;
+        modules_map_t                          m_modules;
         std::map<std::string, QPixmap>         m_images;
         Coord                                  m_scaleFactor;
         std::vector<QGraphicsLineItem*>        m_grid[2];

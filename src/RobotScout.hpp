@@ -22,8 +22,6 @@ namespace MobileRobots
 		std::map<Coord, std::shared_ptr<MapObject>> getObjectsAround() const override;
 
 		inline void setPosition(const Coord& coord) noexcept { m_pos = coord; }
-
-		void redrawModules(const Coord& scaleFactor) noexcept;
 	};
 } // namespace MobileRobots
 
