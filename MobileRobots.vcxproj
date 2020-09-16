@@ -101,6 +101,7 @@
     <ClCompile Include="src\AI.cpp" />
     <ClCompile Include="src\CommandCenter.cpp" />
     <ClCompile Include="src\EnvironmentDescriptor.cpp" />
+    <ClCompile Include="src\Graphics.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\ManagerModule.cpp" />
     <ClCompile Include="src\MapLoader.cpp" />
@@ -120,6 +121,7 @@
     <ClInclude Include="src\Coord.hpp" />
     <ClInclude Include="src\EnergyConsumer.hpp" />
     <ClInclude Include="src\EnvironmentDescriptor.hpp" />
+    <ClInclude Include="src\Graphics.hpp" />
     <ClInclude Include="src\InterestingObject.hpp" />
     <ClInclude Include="src\ManagerModule.hpp" />
     <ClInclude Include="src\MapLoader.hpp" />
