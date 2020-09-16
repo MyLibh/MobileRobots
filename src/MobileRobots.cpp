@@ -8,10 +8,11 @@
 #include "Graphics.hpp"
 #include "Utility.hpp"
 
+#include <QApplication>
+#include <QDesktopWidget>
 #include <QTimer>
 #include <QMouseEvent>
 #include <QScrollBar>
-#include <QScreen>
 #include <QFileDialog>
 
 namespace MobileRobots
@@ -30,7 +31,6 @@ namespace MobileRobots
 
         QMainWindow::setWindowIcon(QIcon(":/assets/icon.ico"));
         QMainWindow::setFixedSize(m_envDescr->getWidth() * m_graphics->getXScale() + MobileRobots::INFO_WIDTH, m_envDescr->getHeight() * m_graphics->getYScale() + MobileRobots::MENU_HEIGHT);
-        QMainWindow::move(qApp->screens()[0]->size().width() / 4, 0);
 
         updateInfo({ 0, 0 });
     }
@@ -138,6 +138,7 @@ namespace MobileRobots
                         m_envDescr = std::move(newEnvDescr);
 
                         QMainWindow::setFixedSize(m_envDescr->getWidth() * m_graphics->getXScale() + MobileRobots::INFO_WIDTH, m_envDescr->getHeight() * m_graphics->getYScale() + MobileRobots::MENU_HEIGHT);
+                        QMainWindow::move(QApplication::desktop()->screen()->rect().center() - QMainWindow::rect().center());
 
                         m_graphics->createMap(m_envDescr->getWidth(), m_envDescr->getHeight(), m_envDescr->getObjects());
 
