@@ -3,7 +3,6 @@
 
 #include "AI.hpp"
 #include "EnvironmentDescriptor.hpp"
-#include "Coord.hpp"
 #include "Utility.hpp"
 
 namespace MobileRobots
