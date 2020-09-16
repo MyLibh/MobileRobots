@@ -6,13 +6,14 @@
 #include "EnvironmentDescriptor.hpp"
 #include "AI.hpp"
 #include "Graphics.hpp"
+#include "Utility.hpp"
 
+#include <QApplication>
+#include <QDesktopWidget>
 #include <QTimer>
 #include <QMouseEvent>
 #include <QScrollBar>
-#include <QScreen>
-
-inline constexpr auto CONFIG_NAME{ ":/cfg/map.json" };
+#include <QFileDialog>
 
 namespace MobileRobots
 {
@@ -20,27 +21,16 @@ namespace MobileRobots
     {
         m_ui->setupUi(this);
 
-        const int SCALED_CANVAS_WIDTH = m_envDescr->getWidth() * m_graphics->getXScale();
-        const int SCALED_CANVAS_HEIGHT = m_envDescr->getHeight() * m_graphics->getYScale();
-
         auto canvas = m_ui->canvas;
-        canvas->resize(SCALED_CANVAS_WIDTH, SCALED_CANVAS_HEIGHT);
         canvas->horizontalScrollBar()->blockSignals(true);
         canvas->verticalScrollBar()->blockSignals(true);
         
         auto& scene = m_graphics->getScene();
         scene->setParent(canvas);
         canvas->setScene(scene.get());
-        scene->setSceneRect(0, 0, canvas->width(), canvas->height());
 
-        m_ui->infoWidget->resize(MobileRobots::INFO_WIDTH, SCALED_CANVAS_HEIGHT);
-        m_ui->infoWidget->move(SCALED_CANVAS_WIDTH, 0);
-
-        // const auto size = qApp->screens()[0]->size().height();
-        QMainWindow::setWindowIcon(QIcon(":/assets/icon.ico"));      
-        QMainWindow::setFixedSize(SCALED_CANVAS_WIDTH + MobileRobots::INFO_WIDTH, SCALED_CANVAS_HEIGHT);
-        // QMainWindow::showFullScreen();
-        QMainWindow::move(qApp->screens()[0]->size().width() / 4, 0);
+        QMainWindow::setWindowIcon(QIcon(":/assets/icon.ico"));
+        QMainWindow::setFixedSize(m_envDescr->getWidth() * m_graphics->getXScale() + MobileRobots::INFO_WIDTH, m_envDescr->getHeight() * m_graphics->getYScale() + MobileRobots::MENU_HEIGHT);
 
         updateInfo({ 0, 0 });
     }
@@ -67,19 +57,19 @@ namespace MobileRobots
     void MobileRobots::resizeEvent(QResizeEvent* event)
     {
         auto canvas = m_ui->canvas;
-        canvas->resize(QMainWindow::width() - MobileRobots::INFO_WIDTH, QMainWindow::height());
+        canvas->resize(QMainWindow::width() - MobileRobots::INFO_WIDTH, QMainWindow::height() - MobileRobots::MENU_HEIGHT);
 
-        m_ui->infoWidget->resize(MobileRobots::INFO_WIDTH, QMainWindow::height());
+        m_ui->infoWidget->resize(MobileRobots::INFO_WIDTH, QMainWindow::height() - MobileRobots::MENU_HEIGHT);
         m_ui->infoWidget->move(canvas->width(), 0);
 
-        m_graphics->resize(canvas->width(), canvas->height());
+        m_graphics->resize(canvas->width(), canvas->height(), m_envDescr->getWidth(), m_envDescr->getHeight());
 
         QMainWindow::resizeEvent(event);
     }
 
     void MobileRobots::mousePressEvent(QMouseEvent* event)
     {
-        if (event->x() <= m_ui->canvas->width() && event->y() <= m_ui->canvas->height())
+        if (event->x() <= m_ui->canvas->width() && event->y() <= m_ui->canvas->height() + MobileRobots::MENU_HEIGHT)
         {
             auto x{ static_cast<uint32_t>(event->x() / m_graphics->getXScale()) };
             auto y{ static_cast<uint32_t>(event->y() / m_graphics->getYScale()) };
@@ -119,17 +109,49 @@ namespace MobileRobots
         QMainWindow(parent),
         m_ui(std::make_unique<Ui::MobileRobotsClass>()),
         m_timer(std::make_unique<QTimer>(this)),
-        m_envDescr(MapLoader::load(QString(CONFIG_NAME))),
+        m_envDescr(MapLoader::load(MobileRobots::DEFAULT_CONFIG_NAME)),
         m_ai(std::make_shared<AI>(m_envDescr)),
         m_graphics(std::make_unique<Graphics>())
     {
         initWidgets();
         m_graphics->createMap(m_envDescr->getWidth(), m_envDescr->getHeight(), m_envDescr->getObjects());
 
-        connect(m_timer.get(), &QTimer::timeout, this, &MobileRobots::update);
+        QObject::connect(m_timer.get(), &QTimer::timeout, this, &MobileRobots::update);
         m_timer->start(MobileRobots::TIMER_INTERVAL_DEFAULT);
 
         ManagerModule::setAI(m_ai->shared_from_this());
+
+        QObject::connect(m_ui->actionOpen, &QAction::triggered,
+            [&]()
+            {
+                m_timer->stop();
+
+                auto path = QFileDialog::getOpenFileName(this, "Open Config", "cfg/", "JSON(*.json)");
+                if (!path.isEmpty())
+                {
+                    if (auto newEnvDescr = MapLoader::load(path); newEnvDescr)
+                    {
+                        m_ui->infoWidget->setPlainText("");
+                        m_ai->clear();
+                        m_graphics->clear();
+
+                        m_envDescr = std::move(newEnvDescr);
+
+                        QMainWindow::setFixedSize(m_envDescr->getWidth() * m_graphics->getXScale() + MobileRobots::INFO_WIDTH, m_envDescr->getHeight() * m_graphics->getYScale() + MobileRobots::MENU_HEIGHT);
+                        QMainWindow::move(QApplication::desktop()->screen()->rect().center() - QMainWindow::rect().center());
+
+                        m_graphics->createMap(m_envDescr->getWidth(), m_envDescr->getHeight(), m_envDescr->getObjects());
+
+                        m_ai->reset(m_envDescr);
+
+                        updateInfo({ 0, 0 });
+                    }
+                    else
+                        Utility::showError("Wrong config file");
+                }
+
+                m_timer->start();
+            });
 
         m_graphics->draw(m_envDescr);
     }

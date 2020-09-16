@@ -172,15 +172,44 @@ namespace MobileRobots
 		return false;
 	}
 
-	AI::AI(std::shared_ptr<EnvironmentDescriptor> envDescr) :
-		m_envDescr(envDescr),
-		m_map(),
-		m_tasks(),
-		m_commanders(),
-		m_routes(),
-		m_finished{},
-		m_cache()
+	void AI::work()
 	{
+		move();
+
+		explore();
+
+		for (auto& commander : m_commanders)
+		{
+			if (typeid(*commander) == typeid(RobotCommander))
+				makeTask(commander);
+			else if (typeid(*commander) == typeid(CommandCenter))
+				for (auto& device : commander->getManager()->getDevices())
+					if (typeid(*device) == typeid(RobotScout))
+						makeTask(commander, device);
+		}
+
+		if (m_tasks.empty())
+			m_finished = true;
+	}
+
+	void AI::clear() noexcept
+	{
+		m_envDescr = nullptr;
+
+		m_map.swap(decltype(m_map)());
+		m_tasks.swap(decltype(m_tasks)());
+		m_commanders.swap(decltype(m_commanders)());
+		m_routes.swap(decltype(m_routes)());
+		m_mapUpdates.swap(decltype(m_mapUpdates)());
+		m_cache.swap(decltype(m_cache)());
+
+		m_finished = false;
+	}
+
+	void AI::reset(std::shared_ptr<EnvironmentDescriptor> envDescr)
+	{
+		m_envDescr = std::move(envDescr);
+
 		for (const auto& object : m_envDescr->getObjects())
 		{
 			if (typeid(*object) == typeid(CommandCenter) || typeid(*object) == typeid(RobotCommander))
@@ -200,25 +229,5 @@ namespace MobileRobots
 			else
 				continue;
 		}
-	}
-
-	void AI::work()
-	{
-		move();
-
-		explore();
-
-		for (auto& commander : m_commanders)
-		{
-			if (typeid(*commander) == typeid(RobotCommander))
-				makeTask(commander);
-			else if (typeid(*commander) == typeid(CommandCenter))
-				for (auto& device : commander->getManager()->getDevices())
-					if (typeid(*device) == typeid(RobotScout))
-						makeTask(commander, device);
-		}
-
-		if (m_tasks.empty())
-			m_finished = true;
 	}
 } // namespace MobileRobots
