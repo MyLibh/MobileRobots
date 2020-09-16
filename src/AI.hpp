@@ -39,7 +39,15 @@ namespace MobileRobots
 	public:
 		AI() = delete;
 
-		explicit AI(std::shared_ptr<EnvironmentDescriptor> envDescr);
+		inline explicit AI::AI(std::shared_ptr<EnvironmentDescriptor> envDescr) :
+			m_envDescr{},
+			m_map(),
+			m_tasks(),
+			m_commanders(),
+			m_routes(),
+			m_finished{},
+			m_cache()
+		{ reset(envDescr); }
 
 		[[nodiscard]]
 		const auto& getExploredObjects() const noexcept { return m_map; }

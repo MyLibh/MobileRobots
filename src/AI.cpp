@@ -172,18 +172,6 @@ namespace MobileRobots
 		return false;
 	}
 
-	AI::AI(std::shared_ptr<EnvironmentDescriptor> envDescr) :
-		m_envDescr{},
-		m_map(),
-		m_tasks(),
-		m_commanders(),
-		m_routes(),
-		m_finished{},
-		m_cache()
-	{
-		reset(envDescr);
-	}
-
 	void AI::work()
 	{
 		move();
