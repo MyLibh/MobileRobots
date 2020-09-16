@@ -126,7 +126,6 @@ namespace MobileRobots
         QObject::connect(m_ui->actionOpen, &QAction::triggered,
             [&]()
             {
-                auto interval = m_timer->interval();
                 m_timer->stop();
 
                 auto path = QFileDialog::getOpenFileName(this, "Open Config", "cfg/", "JSON(*.json)");
