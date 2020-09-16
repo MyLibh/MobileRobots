@@ -18,6 +18,15 @@ namespace MobileRobots
             m_images.emplace(file.section(".", 0, 0).toStdString(), QPixmap(path + file));
 	}
 
+    void Graphics::unloadUnnessesaryImages()
+    {
+        for (auto it = std::begin(m_images); it != std::end(m_images); )
+            if (!QString(it->first.c_str()).startsWith("light"))
+                m_images.erase(it++);
+            else
+                it++;
+    }
+
 	void Graphics::createGrid(const uint32_t width, const uint32_t height)
 	{
 		for (uint32_t x{}; x <= width; ++x)
@@ -130,6 +139,8 @@ namespace MobileRobots
         createGrid(width, height);
 
         m_currentTile = m_scene->addRect(0., 0., m_xScale, m_yScale, QPen(Qt::cyan));
+
+        unloadUnnessesaryImages();
     }
 
 	Graphics::Graphics() :
