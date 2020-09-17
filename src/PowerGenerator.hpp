@@ -1,3 +1,13 @@
+/**
+ * @file PowerGenerator.hpp
+ *
+ * @ingroup Modules
+ *
+ * @brief Power generator module
+ *
+ * @author mylibh
+*/
+
 #ifndef __POWER_GENERATOR_HPP_INCLUDED__
 #define __POWER_GENERATOR_HPP_INCLUDED__
 
@@ -8,17 +18,43 @@ namespace MobileRobots
 	class PowerGenerator final : public Module
 	{
 	public:
-		inline constexpr PowerGenerator(const unsigned powerSupplyLevel, const unsigned priority, const bool isActive = true) noexcept :
-			Module(isActive, priority),
+		/**
+		 * @brief Deleted default constructor
+		*/
+		PowerGenerator() = delete;
+
+		/**
+		 * @brief Constructor
+		 * 
+		 * @param powerSupplyLevel Power generator supply level
+		 * @param priority Module priority
+		 * @param isActive Module state
+		*/
+		inline constexpr PowerGenerator(const unsigned powerSupplyLevel, const unsigned priority) noexcept :
+			Module(priority),
 			m_powerSupplyLevel(powerSupplyLevel)
 		{ }
 
+		/**
+		 * @brief Destructor 
+		*/
 		inline ~PowerGenerator() noexcept override = default;
 
+		/**
+		 * @brief Returns power generator supply level
+		 *
+		 * @return Power generator supply level
+		*/
 		[[nodiscard]]
 		inline constexpr auto getPowerSupplyLevel() const noexcept { return m_powerSupplyLevel; }
 
-		inline std::string toString() const override {
+		/**
+		 * @brief Constructs string with module info
+		 *
+		 * @return String with power generator info
+		*/
+		inline std::string toString() const override
+		{
 			return Module::toStringHelper("PowerGenerator") + "\t<b>powerSupplyLevel:</b>" + std::to_string(m_powerSupplyLevel) + "<br/>";
 		}
 
