@@ -12,6 +12,7 @@
 #include <QFile>
 
 #include <vector>
+#include <stdexcept>
 
 namespace detail
 {
@@ -63,20 +64,13 @@ namespace detail
 
 std::shared_ptr<MobileRobots::EnvironmentDescriptor> MobileRobots::MapLoader::load(const QString& path)
 {
-    QJsonObject json;
-    {
-        QFile file(path);
-        if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
-        {
-            qDebug() << file.errorString();
+    QFile file(path);
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+        throw std::runtime_error(file.errorString().toStdString());
 
-            return nullptr;
-        }
+    QJsonObject json = QJsonDocument::fromJson(file.readAll()).object();
 
-        json = QJsonDocument::fromJson(file.readAll()).object();
-
-        file.close();
-    }
+    file.close();
 
     auto envDescr = std::make_shared<EnvironmentDescriptor>(json.value(QString("width")).toInt(), json.value(QString("height")).toInt());
     MapObject::setEnvironmentDescriptor(envDescr->shared_from_this());
