@@ -39,7 +39,17 @@ namespace MobileRobots
 		void createObjects(const std::vector<std::shared_ptr<MapObject>>& objects);
 
 	public:
-		Graphics();
+		inline Graphics() :
+			m_xScale(Graphics::IMAGE_SIZE),
+			m_yScale(Graphics::IMAGE_SIZE),
+			m_scene(std::make_unique<QGraphicsScene>()),
+			m_map(),
+			m_scouts(),
+			m_images(),
+			m_modules(),
+			m_grid(),
+			m_currentTile{}
+		{ }
 
 		inline ~Graphics() noexcept = default;
 

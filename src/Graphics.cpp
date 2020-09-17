@@ -104,18 +104,6 @@ namespace MobileRobots
         }
     }
 
-	Graphics::Graphics() :
-        m_xScale(Graphics::IMAGE_SIZE),
-        m_yScale(Graphics::IMAGE_SIZE),
-		m_scene(std::make_unique<QGraphicsScene>()),
-		m_map(),
-		m_scouts(),
-		m_images(),
-		m_modules(),
-		m_grid(),
-        m_currentTile{}
-	{ }
-
     void Graphics::setCurrentTilePos(const qreal x, const qreal y) noexcept
     {
         if (m_currentTile)
@@ -143,7 +131,7 @@ namespace MobileRobots
         unloadUnnessesaryImages();
     }
 
-    void Graphics::draw(std::shared_ptr<EnvironmentDescriptor> envDescr, std::set<Coord> mapUpdates /* = { } */) const
+    void Graphics::draw(std::shared_ptr<EnvironmentDescriptor> envDescr, std::set<Coord> mapUpdates /* = { } */) const //-V813
     {
         for (auto& coord : mapUpdates)
             if (auto& object = envDescr->getObject(coord); !object || typeid(*object) == typeid(RobotScout) || typeid(*object) == typeid(RobotCommander))
@@ -164,6 +152,8 @@ namespace MobileRobots
 
     void Graphics::resize(const qreal width, const qreal height, const qreal mapWidth, const qreal mapHeight)
     {
+        m_scene->setSceneRect(0., 0., width, height);
+
         m_xScale = width / mapWidth;
         m_yScale = height / mapHeight ;
 
