@@ -23,7 +23,7 @@ namespace MobileRobots
 
     private:
         inline static constexpr auto INFO_WIDTH{ 200U }; //-V112
-        inline static constexpr auto MENU_HEIGHT{ 26 }; //-V112
+        inline static constexpr auto MENU_HEIGHT{ 21 }; //-V112
         inline static constexpr auto TIMER_INTERVAL_DEFAULT{ 150ms };
         inline static constexpr auto TIMER_INTERVAL_STEP{ 25ms };
         inline static constexpr auto DEFAULT_CONFIG_NAME{ ":/cfg/map.json" };
