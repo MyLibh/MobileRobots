@@ -121,7 +121,7 @@ namespace Math
 	 * 
 	 * @param ...args 
 	 * 
-	 * @note Evaluates int sqrt(arg1^2 + arg2^2 + ... + argN^2)
+	 * @note Evaluates in sqrt(arg1^2 + arg2^2 + ... + argN^2)
 	 * 
 	 * @return Length of the hypotenuse
 	*/
