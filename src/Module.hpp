@@ -32,14 +32,19 @@ namespace MobileRobots
 
 	public:
 		/**
+		 * @brief Deleted default constructor
+		*/
+		Module() = delete;
+
+		/**
 		 * @brief Constructor
 		 *
-		 * @param isActive Module state
 		 * @param priority Module priority
+		 * @param isActive Module state
 		*/
-		inline constexpr Module(const bool isActive, const unsigned priority) noexcept :
-			m_isActive(isActive),
-			m_priority(priority)
+		inline constexpr Module(const unsigned priority, const bool isActive = true) noexcept :
+			m_priority(priority),
+			m_isActive(isActive)
 		{ }
 
 		/**

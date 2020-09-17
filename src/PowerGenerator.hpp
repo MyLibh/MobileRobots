@@ -19,14 +19,19 @@ namespace MobileRobots
 	{
 	public:
 		/**
+		 * @brief Deleted default constructor
+		*/
+		PowerGenerator() = delete;
+
+		/**
 		 * @brief Constructor
 		 * 
 		 * @param powerSupplyLevel Power generator supply level
-		 * @param priority Power generator priority
-		 * @param isActive Power generator state
+		 * @param priority Module priority
+		 * @param isActive Module state
 		*/
-		inline constexpr PowerGenerator(const unsigned powerSupplyLevel, const unsigned priority, const bool isActive = true) noexcept :
-			Module(isActive, priority),
+		inline constexpr PowerGenerator(const unsigned powerSupplyLevel, const unsigned priority) noexcept :
+			Module(priority),
 			m_powerSupplyLevel(powerSupplyLevel)
 		{ }
 
