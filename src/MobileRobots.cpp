@@ -83,8 +83,6 @@ namespace MobileRobots
 
     void MobileRobots::keyPressEvent(QKeyEvent* event)
     {
-        if (event->key() == Qt::Key_Escape)
-            QMainWindow::close();
         switch (event->key())
         {
         case Qt::Key_Escape: QMainWindow::close(); break;
