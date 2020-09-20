@@ -188,7 +188,7 @@ namespace MobileRobots
 						makeTask(commander, device);
 		}
 
-		if (m_tasks.empty())
+		if (m_routes.empty())
 			m_finished = true;
 	}
 
