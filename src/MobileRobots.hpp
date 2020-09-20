@@ -39,6 +39,8 @@ namespace MobileRobots
 
         void keyPressEvent(QKeyEvent* event) override;
 
+        void showResult();
+
     public:
         MobileRobots(QWidget* parent = nullptr);
 
@@ -52,6 +54,7 @@ namespace MobileRobots
         std::shared_ptr<EnvironmentDescriptor> m_envDescr;
         std::shared_ptr<AI>                    m_ai;
         std::unique_ptr<Graphics>              m_graphics;
+        bool                                   m_resultShown;
     };
 } // namespace MobileRobots
 

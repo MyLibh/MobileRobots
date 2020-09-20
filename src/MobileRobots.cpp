@@ -7,6 +7,7 @@
 #include "AI.hpp"
 #include "Graphics.hpp"
 #include "Utility.hpp"
+#include "InterestingObject.hpp"
 
 #include <QApplication>
 #include <QDesktopWidget>
@@ -14,6 +15,7 @@
 #include <QMouseEvent>
 #include <QScrollBar>
 #include <QFileDialog>
+#include <QMessageBox>
 
 namespace MobileRobots
 {
@@ -103,13 +105,41 @@ namespace MobileRobots
         QMainWindow::keyPressEvent(event);
     }
 
+    void MobileRobots::showResult()
+    {
+        size_t ioFound{};
+        for (const auto& [_, object] : m_ai->getExploredObjects())
+            if (object && typeid(*object) == typeid(InterestingObject))
+                ioFound++;
+
+        size_t ioExist{};
+        for (const auto& object : m_envDescr->getObjects())
+            if (typeid(*object) == typeid(InterestingObject))
+                ioExist++;
+
+        auto result = QString("Interesting objects found %1/%2\nTiles explored %3/%4") \
+            .arg(ioFound)
+            .arg(ioExist)
+            .arg(m_ai->getExploredObjects().size())
+            .arg(m_envDescr->getWidth() * m_envDescr->getHeight());
+
+        QMessageBox _(QMessageBox::Icon::NoIcon,
+            "Result",
+            result,
+            QMessageBox::StandardButton::Ok,
+            this);
+
+        _.exec();
+    }
+
     MobileRobots::MobileRobots(QWidget* parent /* = nullptr */) :
         QMainWindow(parent),
         m_ui(std::make_unique<Ui::MobileRobotsClass>()),
         m_timer(std::make_unique<QTimer>(this)),
         m_envDescr(MapLoader::load(MobileRobots::DEFAULT_CONFIG_NAME)),
         m_ai(std::make_shared<AI>(m_envDescr)),
-        m_graphics(std::make_unique<Graphics>())
+        m_graphics(std::make_unique<Graphics>()),
+        m_resultShown{}
     {
         initWidgets();
         m_graphics->createMap(m_envDescr->getWidth(), m_envDescr->getHeight(), m_envDescr->getObjects());
@@ -129,6 +159,8 @@ namespace MobileRobots
                 {
                     if (auto newEnvDescr = MapLoader::load(path); newEnvDescr)
                     {
+                        m_resultShown = false;
+
                         m_ui->infoWidget->setPlainText("");
                         m_ai->clear();
                         m_graphics->clear();
@@ -162,7 +194,11 @@ namespace MobileRobots
 
         m_graphics->draw(m_envDescr, std::move(m_ai->getMapUpdates()));
 
-        if (m_ai->finished())
-            ; // TODO: analyze results
+        if (!m_resultShown && m_ai->finished())
+        {
+            m_resultShown = true;
+
+            showResult();
+        }
     }
 } // namespace MobileRobots
