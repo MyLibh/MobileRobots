@@ -30,7 +30,7 @@ namespace MobileRobots
 	private:
 		void loadImages();
 
-		void unloadUnnessesaryImages();
+		void unloadUnnecessaryImages();
 
 		void createGrid(const uint32_t width, const uint32_t height);
 

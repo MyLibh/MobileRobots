@@ -21,7 +21,7 @@ namespace MobileRobots
             m_images.emplace(file.section(".", 0, 0).toStdString(), QPixmap(path + file));
 	}
 
-    void Graphics::unloadUnnessesaryImages()
+    void Graphics::unloadUnnecessaryImages()
     {
         for (auto it = std::begin(m_images); it != std::end(m_images); )
             if (!QString(it->first.c_str()).startsWith("light"))
@@ -131,7 +131,7 @@ namespace MobileRobots
 
         m_currentTile = m_scene->addRect(0., 0., m_xScale, m_yScale, QPen(Qt::cyan));
 
-        unloadUnnessesaryImages();
+        unloadUnnecessaryImages();
     }
 
     void Graphics::draw(std::shared_ptr<EnvironmentDescriptor> envDescr, std::set<Coord> mapUpdates /* = { } */) const //-V813
