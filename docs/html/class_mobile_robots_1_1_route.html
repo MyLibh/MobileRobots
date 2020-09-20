@@ -57,16 +57,22 @@ $(function() {
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a2db1376bf1a5f8529c64f295f0326b39"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_mobile_robots_1_1_route.html#a2db1376bf1a5f8529c64f295f0326b39">Route</a> () noexcept</td></tr>
+<tr class="memdesc:a2db1376bf1a5f8529c64f295f0326b39"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default constructor.  <a href="class_mobile_robots_1_1_route.html#a2db1376bf1a5f8529c64f295f0326b39">More...</a><br /></td></tr>
 <tr class="separator:a2db1376bf1a5f8529c64f295f0326b39"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6fe46ea7226db51f7fa4f02ae03ae9c4"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_mobile_robots_1_1_route.html#a6fe46ea7226db51f7fa4f02ae03ae9c4">Route</a> (std::queue&lt; <a class="el" href="struct_mobile_robots_1_1_coord.html">Coord</a> &gt; path) noexcept</td></tr>
+<tr class="memdesc:a6fe46ea7226db51f7fa4f02ae03ae9c4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor.  <a href="class_mobile_robots_1_1_route.html#a6fe46ea7226db51f7fa4f02ae03ae9c4">More...</a><br /></td></tr>
 <tr class="separator:a6fe46ea7226db51f7fa4f02ae03ae9c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aaa814e3ea2e72317828e902b66f6611f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_mobile_robots_1_1_coord.html">Coord</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_mobile_robots_1_1_route.html#aaa814e3ea2e72317828e902b66f6611f">getNext</a> () noexcept</td></tr>
+<tr class="memdesc:aaa814e3ea2e72317828e902b66f6611f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns next point in the route.  <a href="class_mobile_robots_1_1_route.html#aaa814e3ea2e72317828e902b66f6611f">More...</a><br /></td></tr>
 <tr class="separator:aaa814e3ea2e72317828e902b66f6611f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7969e31d1f1b099db2bd660b0101d245"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_mobile_robots_1_1_route.html#a7969e31d1f1b099db2bd660b0101d245">to</a> () const noexcept</td></tr>
+<tr class="memdesc:a7969e31d1f1b099db2bd660b0101d245"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns final point.  <a href="class_mobile_robots_1_1_route.html#a7969e31d1f1b099db2bd660b0101d245">More...</a><br /></td></tr>
 <tr class="separator:a7969e31d1f1b099db2bd660b0101d245"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad76e74f3ae811ed3a000e1a0cd0d8edd"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_mobile_robots_1_1_route.html#ad76e74f3ae811ed3a000e1a0cd0d8edd">isFinished</a> () const noexcept</td></tr>
+<tr class="memdesc:ad76e74f3ae811ed3a000e1a0cd0d8edd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if the route is finished.  <a href="class_mobile_robots_1_1_route.html#ad76e74f3ae811ed3a000e1a0cd0d8edd">More...</a><br /></td></tr>
 <tr class="separator:ad76e74f3ae811ed3a000e1a0cd0d8edd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a91b8e3098ad75ca461c3b4b11196fae6"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_mobile_robots_1_1_route.html#a91b8e3098ad75ca461c3b4b11196fae6">operator bool</a> () const noexcept</td></tr>
+<tr class="memdesc:a91b8e3098ad75ca461c3b4b11196fae6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the state of route.  <a href="class_mobile_robots_1_1_route.html#a91b8e3098ad75ca461c3b4b11196fae6">More...</a><br /></td></tr>
 <tr class="separator:a91b8e3098ad75ca461c3b4b11196fae6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
@@ -92,6 +98,8 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Default constructor. </p>
 
 </div>
 </div>
@@ -119,6 +127,14 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Constructor. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">path</td><td>Queue of coordinates to visit </td></tr>
+  </table>
+  </dd>
+</dl>
+
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
@@ -145,6 +161,9 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Returns next point in the route. </p>
+<dl class="section return"><dt>Returns</dt><dd>If route is finished returns final point, else next route point </dd></dl>
+
 </div>
 </div>
 <a id="ad76e74f3ae811ed3a000e1a0cd0d8edd"></a>
@@ -169,6 +188,9 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Checks if the route is finished. </p>
+<dl class="section return"><dt>Returns</dt><dd>True if route is finished, False overwise </dd></dl>
 
 </div>
 </div>
@@ -195,6 +217,10 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Returns the state of route. </p>
+<dl class="section return"><dt>Returns</dt><dd>False if route is finished, True overwise</dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="class_mobile_robots_1_1_route.html#ad76e74f3ae811ed3a000e1a0cd0d8edd" title="Checks if the route is finished.">isFinished</a> </dd></dl>
+
 </div>
 </div>
 <a id="a7969e31d1f1b099db2bd660b0101d245"></a>
@@ -219,6 +245,9 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Returns final point. </p>
+<dl class="section return"><dt>Returns</dt><dd>Final route point </dd></dl>
 
 </div>
 </div>

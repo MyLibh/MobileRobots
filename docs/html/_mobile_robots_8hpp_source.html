@@ -73,7 +73,7 @@ $(function() {
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160; </div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    <span class="keyword">private</span>:</div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        <span class="keyword">inline</span> <span class="keyword">static</span> constexpr <span class="keyword">auto</span> INFO_WIDTH{ 200U }; <span class="comment">//-V112</span></div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;        <span class="keyword">inline</span> <span class="keyword">static</span> constexpr <span class="keyword">auto</span> MENU_HEIGHT{ 26 }; <span class="comment">//-V112</span></div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;        <span class="keyword">inline</span> <span class="keyword">static</span> constexpr <span class="keyword">auto</span> MENU_HEIGHT{ 21 }; <span class="comment">//-V112</span></div>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;        <span class="keyword">inline</span> <span class="keyword">static</span> constexpr <span class="keyword">auto</span> TIMER_INTERVAL_DEFAULT{ 150ms };</div>
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        <span class="keyword">inline</span> <span class="keyword">static</span> constexpr <span class="keyword">auto</span> TIMER_INTERVAL_STEP{ 25ms };</div>
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        <span class="keyword">inline</span> <span class="keyword">static</span> constexpr <span class="keyword">auto</span> DEFAULT_CONFIG_NAME{ <span class="stringliteral">&quot;:/cfg/map.json&quot;</span> };</div>
@@ -89,26 +89,29 @@ $(function() {
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160; </div>
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        <span class="keywordtype">void</span> keyPressEvent(QKeyEvent* event) <span class="keyword">override</span>;</div>
 <div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160; </div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        <a class="code" href="namespace_mobile_robots.html">MobileRobots</a>(QWidget* parent = <span class="keyword">nullptr</span>);</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; </div>
-<div class="line"><a name="l00045"></a><span class="lineno"><a class="line" href="class_mobile_robots_1_1_mobile_robots.html#a72c70d4bf16addf1454d37927e2d0266">   45</a></span>&#160;        <a class="code" href="class_mobile_robots_1_1_mobile_robots.html#a72c70d4bf16addf1454d37927e2d0266">~MobileRobots</a>() noexcept;</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        <span class="keywordtype">void</span> showResult();</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        <a class="code" href="namespace_mobile_robots.html">MobileRobots</a>(QWidget* parent = <span class="keyword">nullptr</span>);</div>
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160; </div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        <span class="keywordtype">void</span> update();</div>
+<div class="line"><a name="l00047"></a><span class="lineno"><a class="line" href="class_mobile_robots_1_1_mobile_robots.html#a72c70d4bf16addf1454d37927e2d0266">   47</a></span>&#160;        <a class="code" href="class_mobile_robots_1_1_mobile_robots.html#a72c70d4bf16addf1454d37927e2d0266">~MobileRobots</a>() noexcept;</div>
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160; </div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    private:</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        <a class="code" href="namespacestd.html">std</a>::unique_ptr&lt;Ui::MobileRobotsClass&gt; m_ui;</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        <a class="code" href="namespacestd.html">std</a>::unique_ptr&lt;QTimer&gt;                m_timer;</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        <a class="code" href="namespacestd.html">std</a>::shared_ptr&lt;<a class="code" href="class_mobile_robots_1_1_environment_descriptor.html">EnvironmentDescriptor</a>&gt; m_envDescr;</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        <a class="code" href="namespacestd.html">std</a>::shared_ptr&lt;<a class="code" href="class_mobile_robots_1_1_a_i.html">AI</a>&gt;                    m_ai;</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        <a class="code" href="namespacestd.html">std</a>::unique_ptr&lt;<a class="code" href="class_mobile_robots_1_1_graphics.html">Graphics</a>&gt;              m_graphics;</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    };</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;} <span class="comment">// namespace MobileRobots</span></div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; </div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="preprocessor">#endif </span><span class="comment">/* !__MOBILE_ROBOTS_HPP_INCLUDED__ */</span><span class="preprocessor"></span></div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        <span class="keywordtype">void</span> update();</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160; </div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    private:</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        <a class="code" href="namespacestd.html">std</a>::unique_ptr&lt;Ui::MobileRobotsClass&gt; m_ui;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        <a class="code" href="namespacestd.html">std</a>::unique_ptr&lt;QTimer&gt;                m_timer;</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        <a class="code" href="namespacestd.html">std</a>::shared_ptr&lt;<a class="code" href="class_mobile_robots_1_1_environment_descriptor.html">EnvironmentDescriptor</a>&gt; m_envDescr;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        <a class="code" href="namespacestd.html">std</a>::shared_ptr&lt;<a class="code" href="class_mobile_robots_1_1_a_i.html">AI</a>&gt;                    m_ai;</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        <a class="code" href="namespacestd.html">std</a>::unique_ptr&lt;<a class="code" href="class_mobile_robots_1_1_graphics.html">Graphics</a>&gt;              m_graphics;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        <span class="keywordtype">bool</span>                                   m_resultShown;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    };</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;} <span class="comment">// namespace MobileRobots</span></div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160; </div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="preprocessor">#endif </span><span class="comment">/* !__MOBILE_ROBOTS_HPP_INCLUDED__ */</span><span class="preprocessor"></span></div>
 </div><!-- fragment --></div><!-- contents -->
 <div class="ttc" id="aclass_mobile_robots_1_1_mobile_robots_html_a72c70d4bf16addf1454d37927e2d0266"><div class="ttname"><a href="class_mobile_robots_1_1_mobile_robots.html#a72c70d4bf16addf1454d37927e2d0266">MobileRobots::MobileRobots::~MobileRobots</a></div><div class="ttdeci">~MobileRobots() noexcept</div></div>
-<div class="ttc" id="aclass_mobile_robots_1_1_environment_descriptor_html"><div class="ttname"><a href="class_mobile_robots_1_1_environment_descriptor.html">MobileRobots::EnvironmentDescriptor</a></div><div class="ttdef"><b>Definition:</b> EnvironmentDescriptor.hpp:14</div></div>
+<div class="ttc" id="aclass_mobile_robots_1_1_environment_descriptor_html"><div class="ttname"><a href="class_mobile_robots_1_1_environment_descriptor.html">MobileRobots::EnvironmentDescriptor</a></div><div class="ttdef"><b>Definition:</b> EnvironmentDescriptor.hpp:11</div></div>
 <div class="ttc" id="aclass_mobile_robots_1_1_graphics_html"><div class="ttname"><a href="class_mobile_robots_1_1_graphics.html">MobileRobots::Graphics</a></div><div class="ttdef"><b>Definition:</b> Graphics.hpp:21</div></div>
 <div class="ttc" id="aclass_mobile_robots_1_1_a_i_html"><div class="ttname"><a href="class_mobile_robots_1_1_a_i.html">MobileRobots::AI</a></div><div class="ttdef"><b>Definition:</b> AI.hpp:18</div></div>
 <div class="ttc" id="anamespacestd_html"><div class="ttname"><a href="namespacestd.html">std</a></div><div class="ttdef"><b>Definition:</b> Coord.hpp:102</div></div>
