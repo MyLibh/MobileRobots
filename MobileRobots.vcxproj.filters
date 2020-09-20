@@ -34,9 +34,6 @@
     <Filter Include="Header Files\Map\Objects">
       <UniqueIdentifier>{54ae2c42-b925-4a8e-be65-b99ec138aa5e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\AI">
-      <UniqueIdentifier>{1b23f25c-7553-4578-84c0-082e8ed2e9c1}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Modules">
       <UniqueIdentifier>{73125cef-eed3-4401-8331-10d594b7a6fc}</UniqueIdentifier>
     </Filter>
@@ -51,9 +48,6 @@
     </Filter>
     <Filter Include="Source Files\Utility">
       <UniqueIdentifier>{26d4c744-fa9f-4e50-a364-7b4ad4cec85e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\AI">
-      <UniqueIdentifier>{231fa5d9-6850-463e-b6e0-50435c199bd0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -98,10 +92,10 @@
     <ClCompile Include="src\RobotScout.cpp">
       <Filter>Source Files\Map\Objects</Filter>
     </ClCompile>
-    <ClCompile Include="src\AI.cpp">
-      <Filter>Source Files\AI</Filter>
-    </ClCompile>
     <ClCompile Include="src\Graphics.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\AI.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -145,9 +139,6 @@
     <ClInclude Include="src\EnvironmentDescriptor.hpp">
       <Filter>Header Files\Map</Filter>
     </ClInclude>
-    <ClInclude Include="src\AI.hpp">
-      <Filter>Header Files\AI</Filter>
-    </ClInclude>
     <ClInclude Include="src\EnergyConsumer.hpp">
       <Filter>Header Files\Modules</Filter>
     </ClInclude>
@@ -164,6 +155,9 @@
       <Filter>Header Files\Utility</Filter>
     </ClInclude>
     <ClInclude Include="src\Graphics.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\AI.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
