@@ -5,6 +5,9 @@
 #include "EnvironmentDescriptor.hpp"
 #include "PowerGenerator.hpp"
 #include "Sensor.hpp"
+#include "Barrier.hpp"
+#include "InterestingObject.hpp"
+#include "RobotCommander.hpp"
 
 #include <QJsonDocument>
 #include <QJsonObject>

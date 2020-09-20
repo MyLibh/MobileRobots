@@ -4,6 +4,9 @@
 #include "Graphics.hpp"
 #include "EnvironmentDescriptor.hpp"
 #include "Sensor.hpp"
+#include "RobotCommander.hpp"
+#include "Barrier.hpp"
+#include "InterestingObject.hpp"
 
 #include <QGraphicsScene>
 #include <QGraphicsItem>

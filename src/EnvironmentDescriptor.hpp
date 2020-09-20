@@ -1,12 +1,9 @@
 #ifndef __ENVIRONMENT_DESCRIPTOR_HPP_INCLUDED__
 #define __ENVIRONMENT_DESCRIPTOR_HPP_INCLUDED__
 
-#include "Barrier.hpp"
-#include "InterestingObject.hpp"
-#include "RobotCommander.hpp"
+#include "MapObject.hpp"
 
 #include <vector>
-#include <type_traits>
 
 namespace MobileRobots
 {
@@ -18,7 +15,8 @@ namespace MobileRobots
 		inline EnvironmentDescriptor(const unsigned width, const unsigned height) noexcept :
 			m_width(width),
 			m_height(height),
-			m_objects()
+			m_objects(),
+			m_objectsCache()
 		{ }
 
 		inline ~EnvironmentDescriptor() noexcept = default;
@@ -42,12 +40,18 @@ namespace MobileRobots
 		inline constexpr bool isInField(const Coord& coord) const noexcept { return coord.x < m_width && coord.y < m_height; }
 
 		template<typename _ObjectType, typename ..._Args, typename = std::enable_if_t<std::is_base_of_v<MapObject, _ObjectType>>>
-		inline void addObject(_Args&&... args) { m_objects.push_back(std::make_shared<_ObjectType>(std::forward<_Args>(args)...)); }
+		inline void addObject(_Args&&... args)
+		{
+			m_objects.push_back(std::make_shared<_ObjectType>(std::forward<_Args>(args)...));
+		}
+
+		inline void dropCache() noexcept { m_objectsCache.clear(); }
 
 	private:
-		unsigned                                m_width;
-		unsigned                                m_height;
-		std::vector<std::shared_ptr<MapObject>> m_objects;
+		unsigned                                                      m_width;
+		unsigned                                                      m_height;
+		std::vector<std::shared_ptr<MapObject>>                       m_objects;
+		mutable std::unordered_map<Coord, std::shared_ptr<MapObject>> m_objectsCache;
 	};
 } // namespace MobileRobots
 
